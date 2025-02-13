@@ -10,12 +10,21 @@ const originalContent = container.innerHTML;
 // Ensure the pop-up is hidden on page load
 popup.style.display = "none";
 
-// Move the "No" button when hovered
-noBtn.addEventListener("mouseover", () => {
+// Function to move the "No" button randomly (Works for both desktop & mobile)
+function moveNoButton() {
     const x = Math.random() * (window.innerWidth - 100);
     const y = Math.random() * (window.innerHeight - 100);
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
+}
+
+// Apply movement on desktop hover
+noBtn.addEventListener("mouseover", moveNoButton);
+
+// Apply movement on mobile touch
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // Prevents weird double-tap behavior
+    moveNoButton();
 });
 
 // Show pop-up after clicking "Yes"
@@ -62,11 +71,10 @@ function addEventListeners() {
         });
     });
 
-    // Reattach "No" button movement
-    document.getElementById("noBtn").addEventListener("mouseover", () => {
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 100);
-        document.getElementById("noBtn").style.left = `${x}px`;
-        document.getElementById("noBtn").style.top = `${y}px`;
+    // Reattach movement for "No" button
+    document.getElementById("noBtn").addEventListener("mouseover", moveNoButton);
+    document.getElementById("noBtn").addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveNoButton();
     });
 }
